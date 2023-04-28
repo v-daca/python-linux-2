@@ -1,3 +1,3 @@
 scikit-image==0.18.1
 numpy==1.16.5
-Bottle==0.12.19
+bottle==0.12.19
