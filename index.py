@@ -6,7 +6,7 @@ import image
 app = bottle.app()
 
 def call_service():
-    directoryName = 'photos'
+    directoryName = 'photos/'
     image.process(directoryName)
 
 @app.route('/')
