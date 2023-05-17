@@ -10,7 +10,7 @@ def call_service():
 	directoryName = 'photos'
 	with concurrent.futures.ThreadçpoolExecutor() as executor:
 		executor.submit(process, directoryName)
-	image.process(directoryName)
+	#image.process(directoryName)
 
 @app.route('/')
 def index():
