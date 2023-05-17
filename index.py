@@ -8,7 +8,7 @@ app = bottle.app()
 
 def call_service():
 	directoryName = 'photos'
-	with concurrent.futures.ThreadçpoolExecutor() as executor:
+	with concurrent.futures.ThreadPoolExecutor() as executor:
 		executor.submit(process, directoryName)
 	#image.process(directoryName)
 
