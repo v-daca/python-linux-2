@@ -2,18 +2,19 @@ import bottle
 from bottle import route, run, Response, template
 import json
 import image
+import asyncio
 
 app = bottle.app()
 
-def call_service():
-    directoryName = 'photos/'
-    image.process(directoryName)
+async def call_service():
+    directoryName = 'photos'
+    await asyncio.to_thread(image.process, directoryName)
 
 @app.route('/')
 def index():
     """Home page"""
     title = "Image Processor App"
-    call_service()
+    asyncio.run(call_service())
     return template('index.tpl',data="Request completed!", title=title)
 
 if __name__ == '__main__':
