@@ -1,12 +1,15 @@
 import bottle
 from bottle import route, run, Response, template
 import json
-import image
+from image import process
+import concurrent.futures
 
 app = bottle.app()
 
 def call_service():
     directoryName = 'photos'
+    with concurrent.futures.ThreadçpoolExecutor() as executor:
+		executor.submit(process, directoryName)
     image.process(directoryName)
 
 @app.route('/')
