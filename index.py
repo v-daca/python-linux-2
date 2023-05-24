@@ -18,6 +18,7 @@ pr = cProfile.Profile()
 pr.enable()
 
 result = index()
+serverApp = bottle.default_app()
 
 pr.disable()
 
@@ -26,5 +27,3 @@ sortby = SortKey.CUMULATIVE
 ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
 ps.print_stats()
 print(s.getvalue())
-
-serverApp = bottle.default_app()
