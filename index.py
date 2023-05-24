@@ -1,23 +1,30 @@
-import bottle
 from bottle import route, run, Response, template
 import json
 import image
-from viztracer import VizTracer
+import cProfile, pstats, io
+from pstats import SortKey
 
-with VizTracer(output_file="optional.json") as tracer:
+def call_service():
+	directoryName = 'photos'
+	image.process(directoryName)
 	
-	def call_service():
-		directoryName = 'photos'
-		image.process(directoryName)
-	
-	@route('/')
-	def index():
-		"""Home page"""
-		title = "Image Processor App"
-		call_service()
-		return template('index.tpl',data="Request completed!", title=title)
+@route('/')
+def index():
+	"""Home page"""
+	title = "Image Processor App"
+	call_service()
+	return template('index.tpl',data="Request completed!", title=title)
+pr = cProfile.Profile()
+pr.enable()
 
-#if __name__ == '__main__':
-#	run(host='0.0.0.0', port=8000, debug=False, reloader=True)
-	
-	serverApp = bottle.default_app()
+result = index()
+
+pr.disable()
+
+s = io.StringIO()
+sortby = SortKey.CUMULATIVE
+ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+ps.print_stats()
+print(s.getvalue())
+
+serverApp = bottle.default_app()
