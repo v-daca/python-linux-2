@@ -13,16 +13,10 @@ def call_service():
 def index():
 	"""Home page"""
 	title = "Image Processor App"
-	call_service()
-	return template('index.tpl',data="Request completed!", title=title)
-
-serverApp = bottle.default_app()
-
-if __name__ == "__main__":
 	pr = cProfile.Profile()
 	pr.enable()
 	
-	result = index()
+	call_service()
 	
 	pr.disable()
 	
@@ -31,3 +25,7 @@ if __name__ == "__main__":
 	ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
 	ps.print_stats()
 	print(s.getvalue())
+	
+	return template('index.tpl',data="Request completed!", title=title)
+	
+serverApp = bottle.default_app()
